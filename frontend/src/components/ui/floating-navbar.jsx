@@ -3,11 +3,10 @@ import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import { useState } from 'react';
 import { cn } from '../../lib/utils';
 
-export function FloatingNav({ navItems, className }) {
+export function FloatingNav({ navItems, brandName = '✦ Sandra Beauty', className }) {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
 
-  // Just track whether user has scrolled at all — never hide, only style change
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setScrolled(latest > 20);
   });
@@ -38,12 +37,12 @@ export function FloatingNav({ navItems, className }) {
       >
         {/* Logo */}
         <a href="/" style={{ textDecoration: 'none' }}>
-          <span className="navbar-logo">✦ Luxe Beauty</span>
+          <span className="navbar-logo">{brandName}</span>
         </a>
 
         {/* Nav links */}
         <ul style={{ display: 'flex', alignItems: 'center', gap: '2.4rem', listStyle: 'none', margin: 0, padding: 0 }}>
-          {navItems.filter(n => !n.isAction).map((item, idx) => (
+          {navItems.filter(n => !n.isAction && !n.isCart).map((item, idx) => (
             <li key={idx}>
               <a
                 href={item.link}
@@ -56,7 +55,6 @@ export function FloatingNav({ navItems, className }) {
                   color: 'var(--color-muted)',
                   textDecoration: 'none',
                   transition: 'color var(--transition)',
-                  position: 'relative',
                   paddingBottom: '4px',
                 }}
                 onMouseEnter={e => e.currentTarget.style.color = 'var(--color-rose-deep)'}

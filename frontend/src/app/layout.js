@@ -4,7 +4,7 @@ import { CartProvider } from '../context/CartContext';
 import Navbar from '../components/Navbar';
 
 export const metadata = {
-  title: 'Luxe Beauty',
+  title: 'Sandra Beauty',
   description: 'Your premium beauty destination'
 };
 
@@ -23,7 +23,6 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <CartProvider>
             <Navbar />
-            {/* Push content below the fixed navbar */}
             <main style={{ paddingTop: '72px' }}>{children}</main>
           </CartProvider>
         </AuthProvider>

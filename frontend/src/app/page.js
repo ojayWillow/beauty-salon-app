@@ -18,7 +18,7 @@ export default function HomePage() {
           className="relative z-10 flex flex-col items-center text-center"
           style={{ maxWidth: '860px', padding: '0 1.5rem' }}
         >
-          <span className="hero-eyebrow">✦ Premium Beauty Studio</span>
+          <span className="hero-eyebrow">✦ Sandra Beauty Studio</span>
 
           <h1 className="hero-title" style={{ marginBottom: '0.2em' }}>
             Where Beauty Meets
@@ -43,7 +43,7 @@ export default function HomePage() {
         <div className="container">
           <div className="section-header">
             <span className="section-eyebrow">Why Choose Us</span>
-            <h2 className="section-title">The Luxe Difference</h2>
+            <h2 className="section-title">The Sandra Difference</h2>
             <p className="section-desc">Every visit is a ritual. Every product is chosen with intention.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.5rem' }}>

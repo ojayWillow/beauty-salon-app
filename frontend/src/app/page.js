@@ -12,27 +12,77 @@ export default function HomePage() {
 
   return (
     <>
-      <AuroraBackground className="hero aurora-hero">
+      <AuroraBackground className="aurora-hero">
         <motion.div
           initial={{ opacity: 0, y: 36 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.9, ease: 'easeOut' }}
-          className="relative z-10 flex flex-col items-center text-center"
-          style={{ maxWidth: '860px', padding: '0 1.5rem' }}
+          style={{
+            position: 'relative',
+            zIndex: 10,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            textAlign: 'center',
+            maxWidth: '860px',
+            padding: '0 1.5rem',
+          }}
         >
           <span className="hero-eyebrow">{tr.hero_eyebrow}</span>
-          <h1 className="hero-title" style={{ marginBottom: '0.2em' }}>{tr.hero_line1}</h1>
-          <h1 className="hero-title hero-flip-line">
-            <FlipWords key={lang} words={tr.flip_words} duration={2600} className="text-gradient-rose-gold" />
+
+          {/* Line 1: static text */}
+          <h1 className="hero-title" style={{ marginBottom: '0.05em' }}>
+            {tr.hero_line1}
           </h1>
-          <p className="hero-subtitle" style={{ marginTop: '1.2rem' }}>{tr.hero_subtitle}</p>
-          <div className="hero-cta" style={{ marginTop: '2.4rem' }}>
+
+          {/* Line 2: animated flip word — same size as h1 */}
+          <h1
+            className="hero-title"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: '1.3em',
+              marginBottom: '0',
+              marginTop: '0',
+            }}
+          >
+            <FlipWords
+              key={lang}
+              words={tr.flip_words}
+              duration={2600}
+              style={{
+                background: 'linear-gradient(135deg, var(--color-rose) 0%, var(--color-gold) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                fontFamily: 'var(--font-serif)',
+                fontWeight: 300,
+                fontStyle: 'italic',
+              }}
+            />
+          </h1>
+
+          <p className="hero-subtitle" style={{ marginTop: '1.4rem' }}>
+            {tr.hero_subtitle}
+          </p>
+
+          <div
+            style={{
+              display: 'flex',
+              gap: '1rem',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              marginTop: '2.4rem',
+            }}
+          >
             <Link href="/store" className="btn btn-primary">{tr.hero_cta_shop}</Link>
             <Link href="/services" className="btn btn-outline">{tr.hero_cta_services}</Link>
           </div>
         </motion.div>
       </AuroraBackground>
 
+      {/* Features section */}
       <section className="section" style={{ background: 'var(--color-cream)' }}>
         <div className="container">
           <div className="section-header">
@@ -47,7 +97,14 @@ export default function HomePage() {
               { icon: '❋', title: tr.feature_3_title, text: tr.feature_3_text },
               { icon: '◇', title: tr.feature_4_title, text: tr.feature_4_text },
             ].map((f, i) => (
-              <motion.div key={f.title} className="feature-box" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1, duration: 0.5 }}>
+              <motion.div
+                key={f.title}
+                className="feature-box"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+              >
                 <div className="feature-icon">{f.icon}</div>
                 <h4 className="feature-title">{f.title}</h4>
                 <p className="feature-text">{f.text}</p>
@@ -57,13 +114,45 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* CTA Banner */}
       <section className="section">
         <div className="container">
-          <motion.div className="cta-banner" initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <span className="hero-eyebrow" style={{ background: 'rgba(255,255,255,0.15)', borderColor: 'rgba(255,255,255,0.3)', color: '#fff' }}>{tr.cta_badge}</span>
+          <motion.div
+            className="cta-banner"
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <span
+              className="hero-eyebrow"
+              style={{ background: 'rgba(255,255,255,0.15)', borderColor: 'rgba(255,255,255,0.3)', color: '#fff' }}
+            >
+              {tr.cta_badge}
+            </span>
             <h2 style={{ marginTop: '1rem', marginBottom: '0.75rem' }}>{tr.cta_title}</h2>
             <p style={{ marginBottom: '2rem' }}>{tr.cta_desc}</p>
-            <Link href="/services" className="btn" style={{ background: '#fff', color: 'var(--color-rose-deep)', padding: '0.9rem 2.4rem', borderRadius: 'var(--radius-full)', fontWeight: 600, fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{tr.cta_btn}</Link>
+            <Link
+              href="/services"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: '#fff',
+                color: 'var(--color-rose-deep)',
+                padding: '0.9rem 2.4rem',
+                borderRadius: 'var(--radius-full)',
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 600,
+                fontSize: '0.82rem',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                transition: 'all 0.3s ease',
+              }}
+            >
+              {tr.cta_btn}
+            </Link>
           </motion.div>
         </div>
       </section>

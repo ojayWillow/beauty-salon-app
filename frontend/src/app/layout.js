@@ -23,7 +23,8 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <CartProvider>
             <Navbar />
-            <main>{children}</main>
+            {/* Push content below the fixed navbar */}
+            <main style={{ paddingTop: '72px' }}>{children}</main>
           </CartProvider>
         </AuthProvider>
       </body>

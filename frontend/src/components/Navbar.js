@@ -1,25 +1,27 @@
 'use client';
-import { usePathname } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { useLang } from '../context/LanguageContext';
+import t from '../lib/translations';
 import { FloatingNav } from './ui/floating-navbar';
 
 export default function Navbar() {
   const { user } = useAuth();
   const { totalItems } = useCart();
-  const pathname = usePathname();
+  const { lang, toggle } = useLang();
+  const tr = t[lang];
 
   const navItems = [
-    { name: 'Home',     link: '/' },
-    { name: 'Store',    link: '/store' },
-    { name: 'Services', link: '/services' },
-    { name: '',         link: '/cart',  isCart: true, badge: totalItems },
+    { name: tr.nav_home,     link: '/' },
+    { name: tr.nav_store,    link: '/store' },
+    { name: tr.nav_services, link: '/services' },
+    { name: '',              link: '/cart', isCart: true, badge: totalItems },
     {
-      name: user ? user.name?.split(' ')[0] : 'Sign In',
+      name: user ? user.name?.split(' ')[0] : tr.nav_signin,
       link: user ? '/profile' : '/auth/login',
       isAction: true,
     },
   ];
 
-  return <FloatingNav navItems={navItems} brandName="✦ Sandra Beauty" />;
+  return <FloatingNav navItems={navItems} brandName="✦ Sandra Beauty" lang={lang} onToggleLang={toggle} />;
 }

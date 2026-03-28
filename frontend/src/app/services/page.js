@@ -2,10 +2,14 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import API from '../../lib/api';
+import { useLang } from '../../context/LanguageContext';
+import t from '../../lib/translations';
 
 export default function ServicesPage() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { lang } = useLang();
+  const tr = t[lang];
 
   useEffect(() => {
     API.get('/services')
@@ -23,46 +27,43 @@ export default function ServicesPage() {
   };
 
   return (
-    <div>
-      <div className="text-center mb-10">
-        <h1 className="text-4xl font-serif text-rose-600 mb-2">Our Services</h1>
-        <p className="text-gray-500">Treat yourself to our premium beauty treatments</p>
+    <div style={{ padding: 'clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 6vw, 5rem)' }}>
+      <div className="section-header" style={{ marginBottom: '2.5rem' }}>
+        <h1 className="section-title">{tr.services_title}</h1>
+        <p className="section-desc">{tr.services_desc}</p>
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="cards-grid">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="bg-white rounded-2xl p-6 shadow animate-pulse">
-              <div className="h-6 bg-rose-100 rounded mb-3 w-2/3" />
-              <div className="h-4 bg-gray-100 rounded mb-2" />
-              <div className="h-4 bg-gray-100 rounded w-3/4 mb-4" />
-              <div className="h-8 bg-rose-100 rounded-full w-1/3" />
+            <div key={i} style={{ background: '#fff', borderRadius: 'var(--radius-lg)', padding: '1.6rem', border: '1px solid var(--color-border)' }}>
+              <div style={{ height: '20px', width: '60%', background: 'var(--color-rose-pale)', borderRadius: 4, marginBottom: '0.75rem', animation: 'shimmer 1.6s ease-in-out infinite', backgroundSize: '200% auto' }} />
+              <div style={{ height: '14px', background: 'var(--color-rose-pale)', borderRadius: 4, marginBottom: '0.5rem', animation: 'shimmer 1.6s ease-in-out infinite', backgroundSize: '200% auto' }} />
+              <div style={{ height: '14px', width: '75%', background: 'var(--color-rose-pale)', borderRadius: 4, marginBottom: '1rem', animation: 'shimmer 1.6s ease-in-out infinite', backgroundSize: '200% auto' }} />
+              <div style={{ height: '36px', width: '35%', background: 'var(--color-rose-pale)', borderRadius: 'var(--radius-full)', animation: 'shimmer 1.6s ease-in-out infinite', backgroundSize: '200% auto' }} />
             </div>
           ))}
         </div>
       ) : services.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">
-          <p className="text-5xl mb-4">💅</p>
-          <p className="text-lg">No services listed yet. Check back soon!</p>
+        <div style={{ textAlign: 'center', padding: 'clamp(4rem, 8vw, 7rem) 2rem' }}>
+          <p style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>💅</p>
+          <p className="section-desc">{tr.no_services}</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="cards-grid">
           {services.map((service) => (
-            <div key={service._id} className="bg-white rounded-2xl shadow p-6 hover:shadow-md transition flex flex-col">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-lg font-semibold text-gray-800">{service.name}</h3>
+            <div key={service._id} className="card" style={{ padding: '1.8rem', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+                <h3 className="card-title" style={{ margin: 0 }}>{service.name}</h3>
                 {service.duration && (
-                  <span className="text-xs bg-rose-50 text-rose-500 px-3 py-1 rounded-full">{durationLabel(service.duration)}</span>
+                  <span className="tag tag-rose">{durationLabel(service.duration)}</span>
                 )}
               </div>
-              <p className="text-gray-500 text-sm flex-1 mb-4">{service.description}</p>
-              <div className="flex items-center justify-between">
-                <span className="text-rose-600 font-bold text-xl">${service.price?.toFixed(2)}</span>
-                <Link
-                  href="/auth/login"
-                  className="bg-rose-500 text-white text-sm px-4 py-2 rounded-full hover:bg-rose-600 transition"
-                >
-                  Book Now
+              <p className="card-description" style={{ flex: 1 }}>{service.description}</p>
+              <div className="card-footer">
+                <span className="card-price">€{service.price?.toFixed(2)}</span>
+                <Link href="/auth/login" className="btn btn-primary" style={{ padding: '0.55rem 1.2rem', fontSize: '0.75rem' }}>
+                  {tr.book_now}
                 </Link>
               </div>
             </div>

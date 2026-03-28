@@ -1,16 +1,17 @@
 import './globals.css';
 import { AuthProvider } from '../context/AuthContext';
 import { CartProvider } from '../context/CartContext';
+import { LanguageProvider } from '../context/LanguageContext';
 import Navbar from '../components/Navbar';
 
 export const metadata = {
   title: 'Sandra Beauty',
-  description: 'Your premium beauty destination'
+  description: 'Jūsu premium skaistumkopšanas galamērķis'
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="lv">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -20,12 +21,14 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <AuthProvider>
-          <CartProvider>
-            <Navbar />
-            <main style={{ paddingTop: '72px' }}>{children}</main>
-          </CartProvider>
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <CartProvider>
+              <Navbar />
+              <main style={{ paddingTop: '72px' }}>{children}</main>
+            </CartProvider>
+          </AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

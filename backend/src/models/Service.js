@@ -1,14 +1,12 @@
 const mongoose = require('mongoose');
 
 const serviceSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  description: { type: String },
-  price: { type: Number, required: true },
-  duration: { type: Number, required: true },
-  category: { type: String, enum: ['hair', 'nails', 'skin', 'makeup', 'massage', 'other'], default: 'other' },
-  image: { type: String },
+  name: { type: String, required: true, trim: true },
+  description: { type: String, default: '' },
+  price: { type: Number, required: true, min: 0 },
+  duration: { type: Number, default: 60 },
+  category: { type: String, default: 'general' },
   available: { type: Boolean, default: true },
-  createdAt: { type: Date, default: Date.now }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Service', serviceSchema);

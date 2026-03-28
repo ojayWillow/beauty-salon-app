@@ -2,23 +2,20 @@ const Service = require('../models/Service');
 
 exports.getServices = async (req, res) => {
   try {
-    const { category } = req.query;
-    let query = { available: true };
-    if (category) query.category = category;
-    const services = await Service.find(query);
+    const services = await Service.find().sort({ createdAt: -1 });
     res.json(services);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: 'Server error.', error: err.message });
   }
 };
 
-exports.getServiceById = async (req, res) => {
+exports.getService = async (req, res) => {
   try {
     const service = await Service.findById(req.params.id);
-    if (!service) return res.status(404).json({ message: 'Service not found' });
+    if (!service) return res.status(404).json({ message: 'Service not found.' });
     res.json(service);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: 'Server error.' });
   }
 };
 
@@ -27,24 +24,26 @@ exports.createService = async (req, res) => {
     const service = await Service.create(req.body);
     res.status(201).json(service);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ message: 'Validation error.', error: err.message });
   }
 };
 
 exports.updateService = async (req, res) => {
   try {
-    const service = await Service.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const service = await Service.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!service) return res.status(404).json({ message: 'Service not found.' });
     res.json(service);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ message: 'Validation error.', error: err.message });
   }
 };
 
 exports.deleteService = async (req, res) => {
   try {
-    await Service.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Service removed' });
+    const service = await Service.findByIdAndDelete(req.params.id);
+    if (!service) return res.status(404).json({ message: 'Service not found.' });
+    res.json({ message: 'Service deleted.' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: 'Server error.' });
   }
 };

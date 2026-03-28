@@ -5,14 +5,14 @@ import API from '../lib/api';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
-      API.get('/auth/profile')
+      API.get('/auth/me')
         .then((res) => setUser(res.data))
         .catch(() => Cookies.remove('token'))
         .finally(() => setLoading(false));
@@ -22,17 +22,17 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const { data } = await API.post('/auth/login', { email, password });
-    Cookies.set('token', data.token, { expires: 7 });
-    setUser(data);
-    return data;
+    const res = await API.post('/auth/login', { email, password });
+    Cookies.set('token', res.data.token, { expires: 7 });
+    setUser(res.data.user);
+    return res.data;
   };
 
-  const register = async (name, email, password, phone) => {
-    const { data } = await API.post('/auth/register', { name, email, password, phone });
-    Cookies.set('token', data.token, { expires: 7 });
-    setUser(data);
-    return data;
+  const register = async (name, email, password) => {
+    const res = await API.post('/auth/register', { name, email, password });
+    Cookies.set('token', res.data.token, { expires: 7 });
+    setUser(res.data.user);
+    return res.data;
   };
 
   const logout = () => {
@@ -45,6 +45,6 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 export const useAuth = () => useContext(AuthContext);

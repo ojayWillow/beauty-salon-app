@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import { AuroraBackground } from '../components/ui/aurora-background';
 import { FlipWords } from '../components/ui/flip-words';
-import { TextGenerateEffect } from '../components/ui/text-generate-effect';
 import { motion } from 'framer-motion';
 
 const flipWordsList = ['Elegance', 'Radiance', 'Confidence', 'You'];
@@ -10,42 +9,36 @@ const flipWordsList = ['Elegance', 'Radiance', 'Confidence', 'You'];
 export default function HomePage() {
   return (
     <>
-      {/* Hero Section with Aurora Background */}
-      <AuroraBackground className="min-h-screen">
+      {/* ── Hero with Aurora ── */}
+      <AuroraBackground className="hero aurora-hero">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 36 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8, ease: 'easeInOut' }}
-          className="relative flex flex-col items-center justify-center px-4 text-center z-10"
+          transition={{ delay: 0.2, duration: 0.9, ease: 'easeOut' }}
+          className="relative z-10 flex flex-col items-center text-center"
+          style={{ maxWidth: '860px', padding: '0 1.5rem' }}
         >
           <span className="hero-eyebrow">✦ Premium Beauty Studio</span>
 
-          <h1 className="hero-title mt-6" style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}>
-            Where Beauty Meets{' '}
-            <span className="text-rose-500">
-              <FlipWords words={flipWordsList} duration={2800} />
-            </span>
+          <h1 className="hero-title" style={{ marginBottom: '0.2em' }}>
+            Where Beauty Meets
+          </h1>
+          <h1 className="hero-title hero-flip-line">
+            <FlipWords words={flipWordsList} duration={2600} className="text-gradient-rose-gold" />
           </h1>
 
-          <TextGenerateEffect
-            words="Indulge in luxury treatments, curated products, and bespoke beauty experiences — designed exclusively for you."
-            className="hero-subtitle mt-4 max-w-2xl text-base md:text-lg font-normal"
-            filter={true}
-            duration={0.4}
-          />
+          <p className="hero-subtitle" style={{ marginTop: '1.2rem' }}>
+            Indulge in luxury treatments, curated products, and bespoke beauty experiences — designed exclusively for you.
+          </p>
 
-          <div className="hero-cta mt-10 flex flex-wrap gap-4 justify-center">
-            <Link href="/store" className="btn btn-primary">
-              Shop Collection
-            </Link>
-            <Link href="/services" className="btn btn-outline">
-              Explore Services
-            </Link>
+          <div className="hero-cta" style={{ marginTop: '2.4rem' }}>
+            <Link href="/store" className="btn btn-primary">Shop Collection</Link>
+            <Link href="/services" className="btn btn-outline">Explore Services</Link>
           </div>
         </motion.div>
       </AuroraBackground>
 
-      {/* Features Strip */}
+      {/* ── Features Strip ── */}
       <section className="section" style={{ background: 'var(--color-cream)' }}>
         <div className="container">
           <div className="section-header">
@@ -77,7 +70,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Banner */}
+      {/* ── CTA Banner ── */}
       <section className="section">
         <div className="container">
           <motion.div

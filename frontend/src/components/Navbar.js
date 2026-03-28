@@ -3,6 +3,13 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { FloatingNav } from './ui/floating-navbar';
+
+const navItems = [
+  { name: 'Home', link: '/' },
+  { name: 'Store', link: '/store' },
+  { name: 'Services', link: '/services' },
+];
 
 export default function Navbar() {
   const { user } = useAuth();
@@ -10,21 +17,29 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="navbar">
-      {/* Logo */}
-      <Link href="/" style={{ textDecoration: 'none' }}>
-        <span className="navbar-logo">✦ Luxe Beauty</span>
-      </Link>
+    <>
+      {/* Floating Navbar (Aceternity) */}
+      <FloatingNav
+        navItems={[
+          ...navItems,
+          {
+            name: user ? user.name?.split(' ')[0] : 'Sign In',
+            link: user ? '/profile' : '/auth/login',
+          },
+        ]}
+      />
 
-      {/* Nav Links */}
-      <ul className="navbar-links">
-        <li><Link href="/" className={pathname === '/' ? 'active' : ''}>Home</Link></li>
-        <li><Link href="/store" className={pathname === '/store' ? 'active' : ''}>Store</Link></li>
-        <li><Link href="/services" className={pathname === '/services' ? 'active' : ''}>Services</Link></li>
-      </ul>
+      {/* Sticky fallback bar with cart icon (always visible) */}
+      <nav className="navbar" style={{ paddingTop: '0.6rem', paddingBottom: '0.6rem' }}>
+        {/* Logo */}
+        <Link href="/" style={{ textDecoration: 'none' }}>
+          <span className="navbar-logo">✦ Luxe Beauty</span>
+        </Link>
 
-      {/* Right actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        {/* Spacer */}
+        <div style={{ flex: 1 }} />
+
+        {/* Cart Icon */}
         <Link
           href="/cart"
           aria-label="Cart"
@@ -48,17 +63,7 @@ export default function Navbar() {
             </span>
           )}
         </Link>
-
-        {user ? (
-          <Link href="/profile" className="btn btn-primary" style={{ padding: '0.55rem 1.4rem', fontSize: '0.78rem' }}>
-            {user.name?.split(' ')[0]}
-          </Link>
-        ) : (
-          <Link href="/auth/login" className="btn btn-primary" style={{ padding: '0.55rem 1.4rem', fontSize: '0.78rem' }}>
-            Sign In
-          </Link>
-        )}
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { motion, stagger, useAnimate } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 
 export function TextGenerateEffect({ words, className, filter = true, duration = 0.5 }) {
   const [scope, animate] = useAnimate();
@@ -13,7 +13,8 @@ export function TextGenerateEffect({ words, className, filter = true, duration =
       { opacity: 1, filter: filter ? 'blur(0px)' : 'none' },
       { duration: duration, delay: stagger(0.2) }
     );
-  }, [scope.current]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className={cn('font-bold', className)}>

@@ -1,6 +1,6 @@
 'use client';
-import { createContext, useContext, useRef, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { cn } from '../../lib/utils';
 
 const MouseEnterContext = createContext(undefined);
 
@@ -16,15 +16,13 @@ export function CardContainer({ children, className, containerClassName }) {
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
   };
 
-  const handleMouseEnter = () => {
-    setIsMouseEntered(true);
-    if (!containerRef.current) return;
-  };
+  const handleMouseEnter = () => setIsMouseEntered(true);
 
   const handleMouseLeave = () => {
-    if (!containerRef.current) return;
     setIsMouseEntered(false);
-    containerRef.current.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    if (containerRef.current) {
+      containerRef.current.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    }
   };
 
   return (
@@ -64,24 +62,29 @@ export function CardBody({ children, className }) {
   );
 }
 
-export function CardItem({ as: Tag = 'div', children, className, translateX = 0, translateY = 0, translateZ = 0, rotateX = 0, rotateY = 0, rotateZ = 0, ...rest }) {
+export function CardItem({
+  as: Tag = 'div',
+  children,
+  className,
+  translateX = 0,
+  translateY = 0,
+  translateZ = 0,
+  rotateX = 0,
+  rotateY = 0,
+  rotateZ = 0,
+  ...rest
+}) {
   const ref = useRef(null);
   const [isMouseEntered] = useContext(MouseEnterContext);
 
-  const handleAnimations = () => {
+  useEffect(() => {
     if (!ref.current) return;
     if (isMouseEntered) {
       ref.current.style.transform = `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
     } else {
       ref.current.style.transform = 'translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)';
     }
-  };
-
-  // re-run whenever isMouseEntered changes
-  if (typeof window !== 'undefined') {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    require('react').useEffect(handleAnimations, [isMouseEntered]);
-  }
+  }, [isMouseEntered]);
 
   return (
     <Tag

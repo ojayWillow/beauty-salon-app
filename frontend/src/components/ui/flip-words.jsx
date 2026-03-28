@@ -1,7 +1,7 @@
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 
 export function FlipWords({ words, duration = 3000, className }) {
   const [currentWord, setCurrentWord] = useState(words[0]);
@@ -21,24 +21,12 @@ export function FlipWords({ words, duration = 3000, className }) {
   }, [isAnimating, duration, startAnimation]);
 
   return (
-    <AnimatePresence
-      onExitComplete={() => setIsAnimating(false)}
-      mode="wait"
-    >
+    <AnimatePresence onExitComplete={() => setIsAnimating(false)} mode="wait">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'spring', stiffness: 100, damping: 10 }}
-        exit={
-          {
-            opacity: 0,
-            y: -40,
-            x: 40,
-            filter: 'blur(8px)',
-            scale: 2,
-            position: 'absolute',
-          }
-        }
+        exit={{ opacity: 0, y: -40, x: 40, filter: 'blur(8px)', scale: 2, position: 'absolute' }}
         className={cn('z-10 inline-block relative text-left px-2', className)}
         key={currentWord}
       >

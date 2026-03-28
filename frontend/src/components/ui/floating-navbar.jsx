@@ -1,7 +1,7 @@
 'use client';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { useState } from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
 
 export function FloatingNav({ navItems, className }) {
   const { scrollYProgress } = useScroll();
@@ -9,15 +9,11 @@ export function FloatingNav({ navItems, className }) {
 
   useMotionValueEvent(scrollYProgress, 'change', (current) => {
     if (typeof current === 'number') {
-      let direction = current - scrollYProgress.getPrevious();
+      const direction = current - scrollYProgress.getPrevious();
       if (scrollYProgress.get() < 0.05) {
         setVisible(true);
       } else {
-        if (direction < 0) {
-          setVisible(true);
-        } else {
-          setVisible(false);
-        }
+        setVisible(direction < 0);
       }
     }
   });
@@ -29,7 +25,7 @@ export function FloatingNav({ navItems, className }) {
         animate={{ y: visible ? 0 : -100, opacity: visible ? 1 : 0 }}
         transition={{ duration: 0.2 }}
         className={cn(
-          'flex max-w-fit fixed top-6 inset-x-0 mx-auto border border-rose-200/20 rounded-full bg-white/80 dark:bg-black/80 shadow-lg backdrop-blur-md z-[5000] px-6 py-3 items-center justify-center space-x-6',
+          'flex max-w-fit fixed top-6 inset-x-0 mx-auto border border-rose-200/20 rounded-full bg-white/80 shadow-lg backdrop-blur-md z-[5000] px-6 py-3 items-center justify-center space-x-6',
           className
         )}
       >
@@ -37,12 +33,10 @@ export function FloatingNav({ navItems, className }) {
           <a
             key={idx}
             href={navItem.link}
-            className={cn(
-              'relative dark:text-neutral-50 items-center flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-rose-500 text-sm font-medium transition-colors',
-            )}
+            className="relative items-center flex space-x-1 text-neutral-600 hover:text-rose-500 text-sm font-medium transition-colors"
           >
-            <span className="block sm:hidden">{navItem.icon}</span>
-            <span className="hidden sm:block">{navItem.name}</span>
+            {navItem.icon && <span className="block sm:hidden">{navItem.icon}</span>}
+            <span>{navItem.name}</span>
           </a>
         ))}
       </motion.div>

@@ -4,18 +4,26 @@ import { CartProvider } from '../context/CartContext';
 import Navbar from '../components/Navbar';
 
 export const metadata = {
-  title: 'Beauty Salon',
+  title: 'Luxe Beauty',
   description: 'Your premium beauty destination'
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-rose-50 min-h-screen font-sans">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>
         <AuthProvider>
           <CartProvider>
             <Navbar />
-            <main className="max-w-7xl mx-auto px-4 py-8">{children}</main>
+            <main>{children}</main>
           </CartProvider>
         </AuthProvider>
       </body>
